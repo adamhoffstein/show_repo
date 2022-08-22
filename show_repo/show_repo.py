@@ -1,7 +1,7 @@
 import argparse
 import pathlib
 from dataclasses import dataclass
-from typing import List
+from typing import Generator, List
 from git import Repo
 from git.exc import InvalidGitRepositoryError
 from colorama import Fore
@@ -16,7 +16,7 @@ class DirItem:
     dirty: bool = False
 
     @property
-    def color(self):
+    def color(self) -> str:
         if self.repo and self.directory and self.dirty:
             return Fore.RED
         elif self.repo and self.directory and not self.dirty:
@@ -27,13 +27,13 @@ class DirItem:
             return Fore.WHITE
 
     @property
-    def output(self):
+    def output(self) -> str:
         return self.color + self.name
 
 
-def chunks(lst, n):
-    for i in range(0, len(lst), n):
-        yield lst[i : i + n]
+def chunks(l: list, n: int) -> Generator[list, None, None]:
+    for i in range(0, len(l), n):
+        yield l[i : i + n]
 
 
 def valid_repo(path: pathlib.Path) -> Repo:
@@ -43,7 +43,7 @@ def valid_repo(path: pathlib.Path) -> Repo:
         pass
 
 
-def get_output(items: List[DirItem]):
+def get_output(items: List[DirItem]) -> str:
     dir_output = []
     cols = 6
     for item in list(chunks([d.output for d in items], cols)):
@@ -80,7 +80,7 @@ def get_dir_items(dir: pathlib.Path) -> List[DirItem]:
     return results
 
 
-def cli():
+def cli() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("dir", nargs="?", default=".", type=pathlib.Path)
     args = parser.parse_args()
