@@ -1,0 +1,29 @@
+name: Run Tests
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+jobs:
+
+    test:
+
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+
+        - name: Checkout Repository
+          uses: actions/checkout@v2
+
+        - name: Setup Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: "3.9"
+        
+        - name: Install deps
+          run: pip install -r dev_requirements.txt
+
+        - name: Run tests
+          run: pytest
