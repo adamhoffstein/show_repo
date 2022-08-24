@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "show-repo"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Adam Hoffstein <adam.hoffstein@gmail.com>"]
 
