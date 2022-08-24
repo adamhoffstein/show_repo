@@ -1,4 +1,3 @@
-import click
 import pathlib
 from dataclasses import dataclass
 from typing import Generator, List
@@ -78,10 +77,3 @@ def get_dir_items(dir: pathlib.Path) -> List[DirItem]:
                 )
             )
     return results
-
-
-@click.command()
-@click.argument("dir", default=".", type=click.Path(exists=True))
-def cli(dir: click.Path) -> None:
-    dir_items = get_dir_items(pathlib.Path(dir))
-    print(get_output(dir_items))
