@@ -1,4 +1,4 @@
-import argparse
+import click
 import pathlib
 from dataclasses import dataclass
 from typing import Generator, List
@@ -80,9 +80,8 @@ def get_dir_items(dir: pathlib.Path) -> List[DirItem]:
     return results
 
 
-def cli() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("dir", nargs="?", default=".", type=pathlib.Path)
-    args = parser.parse_args()
-    dir_items = get_dir_items(args.dir)
+@click.command()
+@click.argument("dir", default=".", type=click.Path(exists=True))
+def cli(dir: click.Path) -> None:
+    dir_items = get_dir_items(pathlib.Path(dir))
     print(get_output(dir_items))
